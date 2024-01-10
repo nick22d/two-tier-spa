@@ -32,7 +32,7 @@ To deploy this solution, please follow the instructions below.
 **1)** Clone the repository locally:
 
 ```
-git clone https://github.com/nick22d/webapp.git
+git clone https://github.com/nick22d/two-tier-spa.git
 ```
 
 **2)** Navigate into the repository:
