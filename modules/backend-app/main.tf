@@ -59,7 +59,7 @@ resource "aws_autoscaling_group" "asg" {
   min_size             = 4
   max_size             = 10
 
-  vpc_zone_identifier = [for subnet in var.private_subnets: subnet.id]
+  vpc_zone_identifier = [for subnet in var.private_subnets : subnet.id]
 
   target_group_arns = [var.aws_lb_target_group]
 }

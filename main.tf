@@ -1,3 +1,9 @@
+/*
+Project: A two-tier architecture for a single-page application
+Author: Nikolaos Doropoulos
+*/
+
+
 # Define the main terraform block
 terraform {
   required_version = ">=1.6.6"
