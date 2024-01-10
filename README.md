@@ -38,7 +38,7 @@ git clone https://github.com/nick22d/two-tier-spa.git
 **2)** Navigate into the repository:
 
 ```
-cd webapp/
+cd two-tier-spa/
 ```
 
 **3)** Run the following commands in the order written:
