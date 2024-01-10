@@ -5,8 +5,6 @@ locals {
   vpc_cidr_block = "10.0.0.0/16"
 
   default_cidr_block = "0.0.0.0/0"
-
-  ami = "ami-0302f42a44bf53a45"
 }
 
 # Create the ALB

@@ -9,6 +9,18 @@ locals {
   ami = "ami-0302f42a44bf53a45"
 
   instance_type = "t2.micro"
+
+  http_traffic_port = 80
+
+  all_ports = 0
+
+  all_protocols = "-1"
+
+  transport_protocol = "tcp"
+
+  auto_scaling_min_size = 4
+
+  auto_scaling_max_size = 10
 }
 
 # Create the launch configuration for the ASG
@@ -56,8 +68,8 @@ resource "aws_launch_configuration" "launch_config" {
 # Create the ASG
 resource "aws_autoscaling_group" "asg" {
   launch_configuration = aws_launch_configuration.launch_config.name
-  min_size             = 4
-  max_size             = 10
+  min_size             = local.auto_scaling_min_size
+  max_size             = local.auto_scaling_max_size
 
   vpc_zone_identifier = [for subnet in var.private_subnets : subnet.id]
 
@@ -72,16 +84,16 @@ resource "aws_security_group" "sg_for_alb" {
 
   ingress {
     description = "HTTP from the world"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
+    from_port   = local.http_traffic_port
+    to_port     = local.http_traffic_port
+    protocol    = local.transport_protocol
     cidr_blocks = [local.default_cidr_block]
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port   = local.all_ports
+    to_port     = local.all_ports
+    protocol    = local.all_protocols
     cidr_blocks = [local.default_cidr_block]
   }
 }
@@ -94,16 +106,16 @@ resource "aws_security_group" "sg_for_ec2" {
 
   ingress {
     description     = "HTTP from the ALB"
-    from_port       = 80
-    to_port         = 80
-    protocol        = "tcp"
+    from_port       = local.http_traffic_port
+    to_port         = local.http_traffic_port
+    protocol        = local.transport_protocol
     security_groups = [aws_security_group.sg_for_alb.id]
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port   = local.all_ports
+    to_port     = local.all_ports
+    protocol    = local.all_protocols
     cidr_blocks = [local.default_cidr_block]
   }
 }
